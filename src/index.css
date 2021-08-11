@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.reg {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reg_input {
+  display: block;
+  margin: 100px auto 20px;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.reg_input:focus {
+ box-shadow: 1px 5px 5px 2px rgba(123, 123, 123, 0.5);
+ outline: none;
+ border-radius: 5px;
+}
+
+.reg_button {
+  display: block;
+  margin: 0 auto;
+  font-size: 30px;
+  padding: 10px 30px;
+  background-color: rgba(121, 121, 255, 0.726);
+  border-radius: 5px;
+}
