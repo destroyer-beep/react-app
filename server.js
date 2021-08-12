@@ -4,14 +4,30 @@ const app = express(); // Инициализация приложения
 const server = require('http').Server(app); // Работа сервера через Express
 const io = require('socket.io')(server)// Подключение Socket к серверу Express
 
-const rooms = new Map();
+app.use(express.json()); // Способ получения json данных с фронта
+
+const rooms = []; // Список комнат
+
+
+// Функция для создания пользователя и его комнаты
+function userCreate(userId, userName) {  
+                this.userId = userId,
+                this.userName = userName,
+                this.userRoom = {
+                    users: [],
+                    messages: {}
+                }
+}
 
 app.get('/rooms', (req, res) => {
-    res.json(rooms);
+    res.json(rooms[rooms.length - 1]);
 });
 
+// Получение данных с инпута и создание юзера с личной комнатой
 app.post('/rooms', (req, res) => {
-console.log('Hello World');
+    const {userId, userName} = req.body;
+    let user = new userCreate(userId, userName);
+    rooms.push(user);
 });
 
 io.on('connection', (socket) => {
