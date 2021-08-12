@@ -3,7 +3,9 @@ export default (state, action) => {
         case 'AUTH': 
         return {
             ...state,
-            isAuth: action.payload
+            isAuth: true,
+            userName: action.payload.userName,
+            userId: action.payload.userId
         }
         default:
             return state;

@@ -5,18 +5,18 @@ import axios from 'axios';
 
 
 function BlockReg({ onSignIn }) {
-    const [userName, setUserName] = React.useState('');
+    const [userName, setUserName] = React.useState('');  // Состояние поля input
 
 
-    const id = new Service();
+    const id = new Service(); // Инициализация класса, генерирующего ID
 
-    const onEnter = () => {
+    const onEnter = () => { // Функция авторизации
         if (!userName) {
             return alert('Введите свое имя');
         }
         let user = new User(userName, id.generatedId());
-        axios.post('/rooms', user)
-            .then(onSignIn());
+        axios.post('/rooms', user);
+        onSignIn(user);
     }
 
     return (

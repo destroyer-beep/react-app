@@ -27,10 +27,22 @@ app.get('/rooms', (req, res) => {
 app.post('/rooms', (req, res) => {
     const {userId, userName} = req.body;
     let user = new userCreate(userId, userName);
+    user.userRoom.users.push(userName);
     rooms.push(user);
 });
 
 io.on('connection', (socket) => {
+    socket.on('ROOM:AUTH', (data) => {
+        socket.join(data.userId);
+        rooms.forEach(item => {
+            if (item.userId == data.userId) {
+                item.get(item.userId).get(item.userRoom.users).set([socket.id, item.UserName]);
+                const users = item.get(item.userId).get(...item.userRoom.users);
+                socket.emit('ROOM:JOINED', users);
+            }
+        })
+    })
+
     console.log('socket connect', socket.id);
 })
 
