@@ -7,6 +7,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  overflow: hidden;
+}
+
+li {
+  list-style: none;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -37,4 +45,116 @@ code {
   padding: 10px 30px;
   background-color: rgba(121, 121, 255, 0.726);
   border-radius: 5px;
+}
+
+.room_box {
+  padding: 5px;
+}
+
+.room_search {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.search_label {
+  margin-right: 20px;
+  font-size: 25px;
+}
+
+.search_input {
+  width: 200px;
+  height: 20px;
+  font-size: 18px;
+  margin-right: 20px;
+}
+
+.search_button {
+  font-size: 20px;
+  background-color: rgba(121, 121, 255, 0.726);
+}
+
+.tabs {
+  margin-top: 50px;
+}
+
+.tabs_items {
+  display: flex;
+}
+
+.tabs_item {
+  padding: 10px;
+  background-color: rgba(121, 121, 255, 0.726);
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.active {
+  color: white;
+}
+
+.chat {
+  min-height: 500px;
+  border: 1px solid gray;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+.chat_messages {
+  padding: 10px;
+  width: 80%;
+  background-color: rgba(233, 233, 233, 0.726);
+  overflow: hidden;
+}
+
+.messages {
+  overflow: auto;
+  height: 400px;
+}
+
+.messages_text {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(121, 121, 255, 0.726);
+  margin-top: 20px;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages_user {
+  font-size: 16px;
+  margin-left: auto;
+}
+
+.messages_date {
+  font-size: 14px;
+  margin-left: auto;
+}
+
+.chat_users {
+  padding: 10px;
+}
+
+.user_name {
+  margin-bottom: 10px;
+  padding: 15px 25px;
+  border-radius: 10px;
+  background-color: rgba(233, 233, 233, 0.726);
+}
+
+.form_input {
+  margin-top: 10px;
+  width: 80%;
+}
+
+.form_button {
+  display: block;
+  padding: 10px;
+  width: 200px;
+  margin-top: 10px;
+  background-color: rgba(121, 121, 255, 0.726);
 }

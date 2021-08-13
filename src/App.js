@@ -1,5 +1,6 @@
 import React from 'react';
 import BlockReg from './components/BlockReg';
+import Room from './components/rooms';
 import reducer from './reducer';
 import socket from './socket';
 
@@ -27,7 +28,7 @@ import socket from './socket';
 
   return (
     <div className="reg">
-      {!state.isAuth && <BlockReg onSignIn={onSignIn} />}
+      {!state.isAuth ? <BlockReg onSignIn={onSignIn}/> : <Room /> }
     </div>
   );
 };
