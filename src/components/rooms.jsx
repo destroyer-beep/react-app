@@ -1,7 +1,37 @@
 import React from 'react';
+import socket from '../socket';
 
-function Room() {
-    
+function Room({ roomData }) {
+    const [message, setMessage] = React.useState('');
+
+    if (!Object.keys(roomData).length) {  // Проверка State сообщений
+        return null;
+    }
+
+    // Вывод сообщений 
+
+    function messageParse(obj) {
+        let arrMessage = [];
+        for (let item in obj) {
+                arrMessage.push(
+                    <li key={Math.random()} className="messages_text">{obj[item][0]}
+                        <span key={Math.random()} className="messages_user">{item}</span>
+                        <span key={Math.random()} className="messages_date">{obj[item][1]}</span>
+                        <span key={Math.random()} className="messages_date">{obj[item][2]}:{obj[item][3] > 10 ? obj[item][3] : `0${obj[item][3]}`}</span>
+                    </li>
+                )
+        }
+        return arrMessage;
+    }
+
+    const onMessage = () => {
+        if (!message) {
+            return alert('Введите сообщение!');
+        }
+
+        socket.emit('ROOM:MESSAGE', message);
+    }
+
     return (
         <div className="room_box">
             <form className="room_search">
@@ -12,54 +42,24 @@ function Room() {
 
             <div className="tabs">
                 <ul className="tabs_items">
-                    <li className="tabs_item active">Room 1</li>
-                    <li className="tabs_item">Room 2</li>
-                    <li className="tabs_item">Room 3</li>
-                    <li className="tabs_item">Room 4</li>
+                    {roomData.rooms.map(item => <li key={item} className="tabs_item active">{item}</li>)}
                 </ul>
             </div>
             <div className="chat">
                 <div className="chat_messages">
                     <ul className="messages">
-                        <li className="messages_text">Hello World Hello World Hello WorldHello World
-                            <span className="messages_user">User</span>
-                            <span className="messages_date">{new Date().toLocaleDateString()}</span>
-                            <span className="messages_date">{new Date().toLocaleTimeString()}</span>
-                        </li>
-                        <li className="messages_text">Hello World Hello World Hello WorldHello World
-                            <span className="messages_user">User</span>
-                            <span className="messages_date">{new Date().toLocaleDateString()}</span>
-                            <span className="messages_date">{new Date().toLocaleTimeString()}</span>
-                        </li>
-                        <li className="messages_text">Hello World Hello World Hello WorldHello World
-                            <span className="messages_user">User</span>
-                            <span className="messages_date">{new Date().toLocaleDateString()}</span>
-                            <span className="messages_date">{new Date().toLocaleTimeString()}</span>
-                        </li>
-                        <li className="messages_text">Hello World
-                            <span className="messages_user">User</span>
-                            <span className="messages_date">{new Date().toLocaleDateString()}</span>
-                            <span className="messages_date">{new Date().toLocaleTimeString()}</span>
-                        </li>
-                        <li className="messages_text">Hello World Hello World Hello World Hello WorldHello World Hello World Hello World Hello WorldHello World Hello World Hello World Hello WorldHello World
-                            <span className="messages_user">User</span>
-                            <span className="messages_date">{new Date().toLocaleDateString()}</span>
-                            <span className="messages_date">{new Date().toLocaleTimeString()}</span>
-                        </li>
+                        {messageParse(roomData.userRoom.messages)}
                     </ul>
                 </div>
                 <div className="chat_users">
                     <ul className="users">
-                        <li className="user_name">User1</li>
-                        <li className="user_name">User2</li>
-                        <li className="user_name">User3</li>
-                        <li className="user_name">User4</li>
+                        {roomData.userRoom.users.map(item => <li key={item} className="user_name">{item}</li>)}
                     </ul>
                 </div>
             </div>
             <form className="form_message" action="#">
-                <textarea className="form_input" rows="4"></textarea>
-                <button className="form_button" type="button">Отправить</button>
+                <textarea className="form_input" value={message} onChange={(e) => setMessage(e.target.value)} rows="4"></textarea>
+                <button className="form_button" onClick={onMessage} type="button">Отправить</button>
             </form>
         </div>
     )

@@ -3,7 +3,6 @@ import Service from './service';
 import {User} from './service';
 import axios from 'axios';
 
-
 function BlockReg({ onSignIn }) {
     const [userName, setUserName] = React.useState('');  // Состояние поля input
 
@@ -17,7 +16,7 @@ function BlockReg({ onSignIn }) {
         let user = new User(userName, id.generatedId());
         axios.post('/rooms', user);
         onSignIn(user);
-    }
+    } 
 
     return (
         <div className="box">

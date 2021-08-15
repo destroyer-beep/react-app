@@ -10,12 +10,18 @@ const rooms = []; // Список комнат
 
 
 // Функция для создания пользователя и его комнаты
-function userCreate(userId, userName) {  
+function Room(userId, userName) {  
                 this.userId = userId,
                 this.userName = userName,
+                this.rooms = [],
                 this.userRoom = {
                     users: [],
-                    messages: {}
+                    messages: {
+                        Ivan: ['Сообщение 1', new Date().getFullYear(), new Date().getHours(), new Date().getMinutes()],
+                        Max: ['Сообщение 2', new Date().getFullYear(), new Date().getHours(), new Date().getMinutes()],
+                        Sergey: ['Сообщение 3', new Date().getFullYear(), new Date().getHours(), new Date().getMinutes()],
+                        Alex: ['Сообщение 4', new Date().getFullYear(), new Date().getHours(), new Date().getMinutes()]
+                    }
                 }
 }
 
@@ -26,17 +32,20 @@ app.get('/rooms', (req, res) => {
 // Получение данных с инпута и создание юзера с личной комнатой
 app.post('/rooms', (req, res) => {
     const {userId, userName} = req.body;
-    let user = new userCreate(userId, userName);
-    user.userRoom.users.push(userName);
-    rooms.push(user);
 });
 
-io.on('connection', (socket) => {
+io.on('connection', (socket) => {                // Cоздание юзера, его комнаты, рендер сообщений в чате и отправка их пользователю
     socket.on('ROOM:AUTH', (data) => {
+        let user = new Room(data.userId, data.userName);
+        user.userRoom.users.push(data.userName);
+        user.rooms.push(user.userId);
+        rooms.push(user);
         console.log(data);
-        rooms.forEach(item => {
-            if(item.userId == data.userId) {
-                socket.join(item.userId);
+            rooms.forEach(item => {
+                if(item.userId == user.userId) { 
+                    console.log(item.userId);
+                    socket.join(user.userId);
+                    io.to(user.userId).emit('ROOM:EXPORT', JSON.stringify(item));
             }
         })
         // socket.join(data.userId);
@@ -52,7 +61,7 @@ io.on('connection', (socket) => {
     console.log('socket connect', socket.id);
 })
 
-server.listen(8888, (err) => {
+server.listen(8888, (err) => { 
     if (err) {
         throw Error(err);
     }

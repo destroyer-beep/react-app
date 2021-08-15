@@ -6,6 +6,7 @@ import socket from './socket';
 
   function App() {
 
+  const [roomData, setRoomData] = React.useState({}); // State для 
   const [state, dispatch] = React.useReducer(reducer, { // Reducer для переключения флага авторизации
     isAuth: false,
     userName: null,
@@ -20,15 +21,20 @@ import socket from './socket';
       socket.emit('ROOM:AUTH', user);
   };
 
-  socket.on('ROOM:JOINED', users => {
-    console.log('Новый пользователь', users);
-  })
+  // Получение данных комнаты с сервера
+  React.useEffect(() => {
+    socket.on('ROOM:EXPORT', data => {
+      let roomData = JSON.parse(data);
+      console.log(data)
+      setRoomData(roomData);
+    })
+  }, []);
 
   window.socket = socket;
 
   return (
     <div className="reg">
-      {!state.isAuth ? <BlockReg onSignIn={onSignIn}/> : <Room /> }
+      {!state.isAuth ? <BlockReg onSignIn={onSignIn}/> : <Room roomData={roomData} /> }
     </div>
   );
 };
